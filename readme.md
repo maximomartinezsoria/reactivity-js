@@ -17,4 +17,4 @@ $ .load index.js
 4. Play with default values or create yours modifing the `data` object and adding the reactive property into the `watcher` callback.
 
 ## Demo
-[![Demo](./assets/demo-screenshot.png)](./assets/demo.mp4)
+[Demo](./assets/demo.mp4)
