@@ -20,21 +20,25 @@ let data = {
 
 let target, total
 
+let deps = new Map()
+
 Object.keys(data).forEach(key => {
-    let internalValue = data[key]
-    const dep = new Dependency();
+    deps.set(key, new Dependency())
+})
 
-    Object.defineProperty(data, key, {
-        get() {
-            dep.depend()
-            return internalValue
-        },
+let data_without_proxy = data
 
-        set(newVal) {
-            internalValue = newVal
-            dep.notify()
-        }
-    })
+data = new Proxy(data_without_proxy, {
+    get(obj, key) {
+        deps.get(key).depend()
+        return obj[key]
+    },
+    
+    set(obj, key, newVal) {
+        obj[key] = newVal
+        deps.get(key).notify()
+        return true
+    }
 })
 
 function watcher(myFunc) {
